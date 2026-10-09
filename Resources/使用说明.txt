@@ -1,0 +1,23 @@
+Gravix 0.1 — Windows 远程桌面 for macOS
+
+1. 在 Windows（专业版、企业版或 Server）开启远程桌面，并确保 Mac 可以访问它的网络。
+2. 点击“添加电脑”，输入地址、用户名及 Windows 账户密码（不是 PIN），然后“保存并连接”。
+3. 初次连接时核对证书指纹；证书变化时应用会再次提示，不会自动忽略验证。
+
+快捷操作
+• ⌘N：添加电脑
+• 远程窗口内 ⌘C / ⌘V / ⌘X / ⌘A：映射 Windows Ctrl 快捷键
+• Mac → Windows 文件：Finder 复制文件，远程文件夹内 ⌘V；也可“发送文件”或拖放文件到远程窗口
+• Windows → Mac 文件：Windows 内复制文件，点击“接收文件”或 ⌘⇧V，选择保存位置
+• 接收完成后打开接收目录，也可在 Finder 中粘贴文件
+• 大量文件也可配置共享文件夹，在 Windows 资源管理器输入 \\tsclient\Gravix
+• 更多菜单：Ctrl + Alt + Delete、全屏、共享文件夹入口、取消文件接收
+
+显示
+默认使用 VideoToolbox 优先的 H.264 解码，实际编码由 Windows 协商。不支持 H.264 时使用协议可用的其他编码；硬件设备不可用时解码器可回退。分辨率自适应依赖服务器的 Display Control 通道。Retina 模式会增加传输和绘制负担。
+
+数据
+密码只保存在本机 macOS 钥匙串。连接资料和最近 200 次历史会话在 ~/Library/Application Support/Gravix/connections.json，不含密码。文件接收由用户手动触发，默认不共享任何 Mac 文件夹。
+
+范围
+当前支持直接连接 Windows RDP；未提供 RD Gateway、Entra ID 交互登录、麦克风或摄像头重定向。原生剪贴板支持文字和文件，未加入图片格式。文件接收完成前，不要再次改变 Windows 剪贴板；这会取消当前接收。符号链接、超过 260 个 UTF-16 单元的相对路径，以及超过 10,000 项的剪贴板文件列表会被拒绝，请使用共享文件夹。
