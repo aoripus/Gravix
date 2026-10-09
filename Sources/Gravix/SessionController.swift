@@ -126,14 +126,15 @@ struct RemoteSessionView: View {
     @EnvironmentObject var settings: AppSettings
     var body: some View {
         VStack(spacing: 0) {
+            NativeGlassControls {
             HStack(spacing: 14) {
                 Circle().fill(session.state == "connected" ? Color.mint : Color.orange).frame(width: 7, height: 7)
                 Text(session.profile.title).font(.headline)
                 Text(session.profile.endpoint).font(.caption.monospaced()).foregroundStyle(.secondary)
                 Spacer()
-                Button { session.sendFiles() } label: { Label("发送文件", systemImage: "square.and.arrow.up") }
+                Button { session.sendFiles() } label: { Label("发送文件", systemImage: "square.and.arrow.up") }.nativeGlassButton()
                     .disabled(session.state != "connected" || !session.profile.clipboard)
-                Button { session.receiveFiles() } label: { Label("接收文件", systemImage: "square.and.arrow.down") }
+                Button { session.receiveFiles() } label: { Label("接收文件", systemImage: "square.and.arrow.down") }.nativeGlassButton()
                     .keyboardShortcut("v", modifiers: [.command, .shift])
                     .disabled(!session.remoteFilesReady || session.state != "connected" || !session.profile.clipboard)
                 Menu {
@@ -144,9 +145,10 @@ struct RemoteSessionView: View {
                         Button("复制 Windows 共享路径") { NSPasteboard.general.clearContents(); NSPasteboard.general.setString("\\\\tsclient\\Gravix", forType: .string) }
                     }
                     Button("取消文件接收") { session.bridge.cancelTransfer() }
-                } label: { Image(systemName: "ellipsis.circle") }.menuStyle(.borderlessButton).frame(width: 24)
-                Button("断开") { session.stop() }.disabled(!session.isLive)
-            }.padding(.horizontal, 14).padding(.vertical, 10).navigationSurface(radius: 12).padding(8)
+                } label: { Image(systemName: "ellipsis.circle") }.menuStyle(.button).nativeGlassButton()
+                Button("断开") { session.stop() }.nativeGlassButton().disabled(!session.isLive)
+            }.padding(.horizontal, 14).padding(.vertical, 10)
+            }
             Divider()
             ZStack {
                 RemoteDesktop(session: session)
@@ -157,7 +159,7 @@ struct RemoteSessionView: View {
                         else { Image(systemName: session.state == "failed" ? "wifi.exclamationmark" : "display").font(.system(size: 44)).foregroundStyle(.secondary) }
                         Text(session.state == "connecting" ? "正在连接 Windows…" : session.state == "failed" ? "连接未成功" : "会话已结束").font(.title2.bold())
                         Text(session.error.isEmpty ? session.profile.endpoint : session.error).foregroundStyle(.secondary).multilineTextAlignment(.center).frame(maxWidth: 520)
-                        if session.state == "connecting" { Button("取消连接") { session.stop() } }
+                        if session.state == "connecting" { Button("取消连接") { session.stop() }.nativeGlassButton() }
                         else { Text("回到主窗口，双击电脑即可重新连接。").font(.callout).foregroundStyle(.secondary) }
                     }.padding(40)
                 }
@@ -172,7 +174,6 @@ struct RemoteSessionView: View {
                 Text(session.transfer.isEmpty ? "⌘C / ⌘V 复制粘贴 · ⌘⇧V 接收 Windows 文件" : session.transfer).lineLimit(1)
             }.font(.system(size: 11)).foregroundStyle(.secondary).padding(.horizontal, 16).padding(.vertical, 8).background(.bar)
         }.frame(minWidth: 640, minHeight: 440)
-            .background { WorkspaceBackground() }
             .tint(settings.accent.color)
             .preferredColorScheme(settings.appearance.colorScheme)
     }

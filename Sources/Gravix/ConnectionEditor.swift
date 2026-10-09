@@ -49,8 +49,8 @@ struct ConnectionEditor: View {
                             Text(profile.sharedFolder.isEmpty ? "仅共享你选择的文件夹" : profile.sharedFolder).font(.caption).foregroundStyle(.secondary).lineLimit(2)
                         }
                         Spacer()
-                        if !profile.sharedFolder.isEmpty { Button("移除") { profile.sharedFolder = "" } }
-                        Button("选择…") { chooseFolder() }
+                        if !profile.sharedFolder.isEmpty { Button("移除") { profile.sharedFolder = "" }.nativeGlassButton() }
+                        Button("选择…") { chooseFolder() }.nativeGlassButton()
                     }
                     if !profile.sharedFolder.isEmpty { Text("Windows 资源管理器中访问 \\\\tsclient\\Gravix（可读写）。").font(.caption).foregroundStyle(.secondary) }
                 }
@@ -58,10 +58,10 @@ struct ConnectionEditor: View {
             if !error.isEmpty { Text(error).font(.callout).foregroundStyle(.red).frame(maxWidth: .infinity, alignment: .leading).padding(.horizontal, 24).padding(.bottom, 12) }
             Divider()
             HStack {
-                Button("取消") { dismiss() }.keyboardShortcut(.cancelAction)
+                Button("取消") { dismiss() }.nativeGlassButton().keyboardShortcut(.cancelAction)
                 Spacer()
-                Button("保存") { submit(connect: false) }
-                Button("保存并连接") { submit(connect: true) }.buttonStyle(.borderedProminent).keyboardShortcut(.defaultAction)
+                Button("保存") { submit(connect: false) }.nativeGlassButton()
+                Button("保存并连接") { submit(connect: true) }.nativeGlassButton(prominent: true).keyboardShortcut(.defaultAction)
             }.padding(20)
         }.frame(width: 570, height: 730)
         .onAppear {
@@ -93,7 +93,7 @@ struct PasswordPrompt: View {
             Text("\(profile.account) · \(profile.endpoint)").foregroundStyle(.secondary)
             SecureField("Windows 密码（不是 PIN）", text: $password).textFieldStyle(.roundedBorder)
             Text("此密码仅用于本次连接。").font(.caption).foregroundStyle(.secondary)
-            HStack { Button("取消") { dismiss() }.keyboardShortcut(.cancelAction); Spacer(); Button("连接") { connect(password); password = ""; dismiss() }.buttonStyle(.borderedProminent).keyboardShortcut(.defaultAction) }
+            HStack { Button("取消") { dismiss() }.nativeGlassButton().keyboardShortcut(.cancelAction); Spacer(); Button("连接") { connect(password); password = ""; dismiss() }.nativeGlassButton(prominent: true).keyboardShortcut(.defaultAction) }
         }.padding(28).frame(width: 420)
     }
 }

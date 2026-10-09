@@ -1,12 +1,6 @@
 import SwiftUI
 import AppKit
 
-enum InterfaceStyle: String, CaseIterable, Identifiable {
-    case liquidGlass, classic
-    var id: String { rawValue }
-    var title: String { self == .liquidGlass ? "Liquid Glass" : "简洁" }
-}
-
 enum AppearanceMode: String, CaseIterable, Identifiable {
     case system, light, dark
     var id: String { rawValue }
@@ -33,13 +27,11 @@ enum AccentChoice: String, CaseIterable, Identifiable {
 final class AppSettings: ObservableObject {
     static let shared = AppSettings()
     private let defaults: UserDefaults
-    @Published var style: InterfaceStyle { didSet { defaults.set(style.rawValue, forKey: "interfaceStyle") } }
     @Published var appearance: AppearanceMode { didSet { defaults.set(appearance.rawValue, forKey: "appearanceMode") } }
     @Published var accent: AccentChoice { didSet { defaults.set(accent.rawValue, forKey: "accentChoice") } }
 
     init(defaults: UserDefaults = .standard) {
         self.defaults = defaults
-        style = InterfaceStyle(rawValue: defaults.string(forKey: "interfaceStyle") ?? "") ?? .liquidGlass
         appearance = AppearanceMode(rawValue: defaults.string(forKey: "appearanceMode") ?? "") ?? .system
         accent = AccentChoice(rawValue: defaults.string(forKey: "accentChoice") ?? "") ?? .blue
     }
@@ -66,43 +58,51 @@ enum WorkspaceSection: String, CaseIterable, Identifiable {
     }
 }
 
-@MainActor
-final class WorkspaceNavigation: ObservableObject {
-    @Published var section: WorkspaceSection = .computers
+enum SidebarSelection: Hashable {
+    case section(WorkspaceSection)
+    case profile(UUID)
 }
 
-private struct NavigationSurface: ViewModifier {
-    @EnvironmentObject var settings: AppSettings
-    @Environment(\.accessibilityReduceTransparency) private var reduceTransparency
-    let radius: CGFloat
+@MainActor
+final class WorkspaceNavigation: ObservableObject {
+    @Published var selection: SidebarSelection? = .section(.computers)
+    var section: WorkspaceSection {
+        get {
+            if case let .section(section) = selection { return section }
+            return .computers
+        }
+        set { selection = .section(newValue) }
+    }
+}
 
+// Use Apple's primitive button styles, including their native interaction effects.
+// The availability branch keeps macOS 14/15 builds usable with standard controls.
+private struct NativeGlassButton: ViewModifier {
+    var prominent: Bool
     @ViewBuilder func body(content: Content) -> some View {
-        if settings.style == .liquidGlass && !reduceTransparency {
-            if #available(macOS 26.0, *) {
-                content.glassEffect(.regular, in: RoundedRectangle(cornerRadius: radius))
-            } else {
-                content.background(.regularMaterial, in: RoundedRectangle(cornerRadius: radius))
-            }
+        if #available(macOS 26.0, *) {
+            if prominent { content.buttonStyle(.glassProminent) }
+            else { content.buttonStyle(.glass) }
         } else {
-            content.background(Color(nsColor: .controlBackgroundColor), in: RoundedRectangle(cornerRadius: radius))
-                .overlay(RoundedRectangle(cornerRadius: radius).strokeBorder(.primary.opacity(0.08)))
+            if prominent { content.buttonStyle(.borderedProminent) }
+            else { content.buttonStyle(.bordered) }
         }
     }
 }
 
 extension View {
-    func navigationSurface(radius: CGFloat = 16) -> some View { modifier(NavigationSurface(radius: radius)) }
+    func nativeGlassButton(prominent: Bool = false) -> some View {
+        modifier(NativeGlassButton(prominent: prominent))
+    }
 }
 
-struct WorkspaceBackground: View {
-    @EnvironmentObject var settings: AppSettings
-    @Environment(\.accessibilityReduceTransparency) private var reduceTransparency
-    var body: some View {
-        ZStack {
-            Color(nsColor: .windowBackgroundColor)
-            if settings.style == .liquidGlass && !reduceTransparency {
-                LinearGradient(colors: [settings.accent.color.opacity(0.12), .clear, settings.accent.color.opacity(0.04)], startPoint: .topLeading, endPoint: .bottomTrailing)
-            }
-        }.ignoresSafeArea()
+struct NativeGlassControls<Content: View>: View {
+    @ViewBuilder let content: () -> Content
+    @ViewBuilder var body: some View {
+        if #available(macOS 26.0, *) {
+            GlassEffectContainer { content() }
+        } else {
+            content()
+        }
     }
 }

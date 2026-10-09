@@ -28,7 +28,8 @@ struct GravixApp: App {
                 .onAppear { delegate.sessions = sessions; settings.applyAppearance() }
                 .onChange(of: settings.appearance) { _, _ in settings.applyAppearance() }
         }.defaultSize(width: 1140, height: 740)
-            .windowStyle(.hiddenTitleBar)
+            .windowStyle(.titleBar)
+            .windowToolbarStyle(.unified)
             .commands {
                 CommandGroup(replacing: .newItem) {
                     Button("新建会话…") { NotificationCenter.default.post(name: .newGravixConnection, object: nil) }.keyboardShortcut("n")
