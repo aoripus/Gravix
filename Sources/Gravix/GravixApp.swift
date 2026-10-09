@@ -18,20 +18,34 @@ struct GravixApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) private var delegate
     @StateObject private var store = ConnectionStore()
     @StateObject private var sessions = SessionManager()
+    @StateObject private var settings = AppSettings.shared
+    @StateObject private var navigation = WorkspaceNavigation()
     var body: some Scene {
         Window("Gravix", id: "main") {
             ContentView().environmentObject(store).environmentObject(sessions)
-                .preferredColorScheme(.dark)
-                .onAppear { delegate.sessions = sessions }
-        }.defaultSize(width: 1080, height: 730)
+                .environmentObject(settings).environmentObject(navigation)
+                .preferredColorScheme(settings.appearance.colorScheme)
+                .onAppear { delegate.sessions = sessions; settings.applyAppearance() }
+                .onChange(of: settings.appearance) { _, _ in settings.applyAppearance() }
+        }.defaultSize(width: 1140, height: 740)
             .windowStyle(.hiddenTitleBar)
             .commands {
                 CommandGroup(replacing: .newItem) {
-                    Button("添加电脑…") { NotificationCenter.default.post(name: .newGravixConnection, object: nil) }.keyboardShortcut("n")
+                    Button("新建会话…") { NotificationCenter.default.post(name: .newGravixConnection, object: nil) }.keyboardShortcut("n")
                 }
-                CommandGroup(replacing: .help) {
-                    Button("Gravix 使用说明") { if let url = Bundle.main.url(forResource: "使用说明", withExtension: "txt") { NSWorkspace.shared.open(url) } }
-                }
+                WorkspaceCommands(navigation: navigation)
+                CommandGroup(replacing: .help) {}
             }
+    }
+}
+
+private struct WorkspaceCommands: Commands {
+    @ObservedObject var navigation: WorkspaceNavigation
+    @Environment(\.openWindow) private var openWindow
+    var body: some Commands {
+        CommandGroup(replacing: .appSettings) {
+            Button("设置…") { navigation.section = .settings; openWindow(id: "main") }
+                .keyboardShortcut(",")
+        }
     }
 }

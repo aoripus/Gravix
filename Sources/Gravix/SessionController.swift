@@ -90,7 +90,7 @@ final class RemoteWindow: NSObject, NSWindowDelegate {
         window.minSize = NSSize(width: 640, height: 480)
         window.isReleasedWhenClosed = false
         window.delegate = self
-        window.contentView = NSHostingView(rootView: RemoteSessionView(session: session))
+        window.contentView = NSHostingView(rootView: RemoteSessionView(session: session).environmentObject(AppSettings.shared))
         window.center(); window.makeKeyAndOrderFront(nil)
         session.bridge.start()
     }
@@ -123,6 +123,7 @@ struct RemoteDesktop: NSViewRepresentable {
 
 struct RemoteSessionView: View {
     @ObservedObject var session: RemoteSession
+    @EnvironmentObject var settings: AppSettings
     var body: some View {
         VStack(spacing: 0) {
             HStack(spacing: 14) {
@@ -145,7 +146,7 @@ struct RemoteSessionView: View {
                     Button("取消文件接收") { session.bridge.cancelTransfer() }
                 } label: { Image(systemName: "ellipsis.circle") }.menuStyle(.borderlessButton).frame(width: 24)
                 Button("断开") { session.stop() }.disabled(!session.isLive)
-            }.padding(.horizontal, 16).padding(.vertical, 11).background(.bar)
+            }.padding(.horizontal, 14).padding(.vertical, 10).navigationSurface(radius: 12).padding(8)
             Divider()
             ZStack {
                 RemoteDesktop(session: session)
@@ -171,5 +172,8 @@ struct RemoteSessionView: View {
                 Text(session.transfer.isEmpty ? "⌘C / ⌘V 复制粘贴 · ⌘⇧V 接收 Windows 文件" : session.transfer).lineLimit(1)
             }.font(.system(size: 11)).foregroundStyle(.secondary).padding(.horizontal, 16).padding(.vertical, 8).background(.bar)
         }.frame(minWidth: 640, minHeight: 440)
+            .background { WorkspaceBackground() }
+            .tint(settings.accent.color)
+            .preferredColorScheme(settings.appearance.colorScheme)
     }
 }

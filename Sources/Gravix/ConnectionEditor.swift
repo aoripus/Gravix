@@ -2,6 +2,7 @@ import SwiftUI
 import AppKit
 
 struct ConnectionEditor: View {
+    @EnvironmentObject var settings: AppSettings
     @Environment(\.dismiss) private var dismiss
     @State var profile: ConnectionProfile
     @State private var password = ""
@@ -13,10 +14,10 @@ struct ConnectionEditor: View {
     var body: some View {
         VStack(spacing: 0) {
             HStack {
-                ZStack { RoundedRectangle(cornerRadius: 12).fill(Color.mint.opacity(0.13)); Image(systemName: "desktopcomputer").font(.title2).foregroundStyle(.mint) }.frame(width: 48, height: 48)
+                ZStack { RoundedRectangle(cornerRadius: 12).fill(settings.accent.color.opacity(0.13)); Image(systemName: "desktopcomputer").font(.title2).foregroundStyle(settings.accent.color) }.frame(width: 48, height: 48)
                 VStack(alignment: .leading, spacing: 4) {
-                    Text(isNew ? "添加 Windows 电脑" : "编辑连接").font(.title2.bold())
-                    Text("保存连接信息，下次一键回到桌面。").foregroundStyle(.secondary)
+                    Text(isNew ? "新建 RDP 会话" : "编辑连接").font(.title2.bold())
+                    Text("Windows 远程桌面").foregroundStyle(.secondary)
                 }
                 Spacer()
             }.padding(24)
@@ -60,7 +61,7 @@ struct ConnectionEditor: View {
                 Button("取消") { dismiss() }.keyboardShortcut(.cancelAction)
                 Spacer()
                 Button("保存") { submit(connect: false) }
-                Button("保存并连接") { submit(connect: true) }.buttonStyle(.borderedProminent).tint(.mint).keyboardShortcut(.defaultAction)
+                Button("保存并连接") { submit(connect: true) }.buttonStyle(.borderedProminent).keyboardShortcut(.defaultAction)
             }.padding(20)
         }.frame(width: 570, height: 730)
         .onAppear {

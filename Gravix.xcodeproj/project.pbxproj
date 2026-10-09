@@ -1,5 +1,7 @@
 // !$*UTF8*$!
 { archiveVersion = 1; classes = {}; objectVersion = 56; objects = {
+62004728E8F953D908F401F9 = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sources/Gravix/AppSettings.swift"; sourceTree = SOURCE_ROOT; };
+430A8603D0BD78EF2F7A8763 = { isa = PBXBuildFile; fileRef = 62004728E8F953D908F401F9; };
 C67383984FC50AF48F1305A3 = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sources/Gravix/ConnectionEditor.swift"; sourceTree = SOURCE_ROOT; };
 684DCFE5529A8B51436A4802 = { isa = PBXBuildFile; fileRef = C67383984FC50AF48F1305A3; };
 F1E4804AE7ABD35EE97CAE81 = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sources/Gravix/ConnectionStore.swift"; sourceTree = SOURCE_ROOT; };
@@ -14,21 +16,21 @@ CB9622F81E93F887FBAE8CB4 = { isa = PBXFileReference; lastKnownFileType = sourcec
 0FBB14CD51520F0CC9DFF637 = { isa = PBXBuildFile; fileRef = 6AD8989D19B5B954DAF67BD7; };
 36119015A875F296C7D5BC4A = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sources/Gravix/SessionController.swift"; sourceTree = SOURCE_ROOT; };
 F5982F9634454DAD27F927FF = { isa = PBXBuildFile; fileRef = 36119015A875F296C7D5BC4A; };
+1205F009EE806377B90761BF = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sources/Gravix/SettingsView.swift"; sourceTree = SOURCE_ROOT; };
+3C7F88F344A95517BEBFCEA2 = { isa = PBXBuildFile; fileRef = 1205F009EE806377B90761BF; };
 FB04C15F9EECD309DE0BD8F3 = { isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = "Sources/RDPBridge/GravixRDP.mm"; sourceTree = SOURCE_ROOT; };
 CAED64C71748E58F3BCC9455 = { isa = PBXBuildFile; fileRef = FB04C15F9EECD309DE0BD8F3; };
 25AA0D5344965F9B6DD8561D = { isa = PBXFileReference; lastKnownFileType = image.icns; path = "Resources/AppIcon.icns"; sourceTree = SOURCE_ROOT; };
 F686A6D7936CDAE052F2081E = { isa = PBXBuildFile; fileRef = 25AA0D5344965F9B6DD8561D; };
 EC945C9824770D13C3B97FE2 = { isa = PBXFileReference; lastKnownFileType = text; path = "Resources/THIRD_PARTY_NOTICES.txt"; sourceTree = SOURCE_ROOT; };
 17E473A7DE5701C4C5DD087A = { isa = PBXBuildFile; fileRef = EC945C9824770D13C3B97FE2; };
-F078B5564CBA5D0C8FED862B = { isa = PBXFileReference; lastKnownFileType = text; path = "Resources/使用说明.txt"; sourceTree = SOURCE_ROOT; };
-32DA775FE71C1280CCD450D0 = { isa = PBXBuildFile; fileRef = F078B5564CBA5D0C8FED862B; };
 7D1043473D55BFA90E8530D3 = { isa = PBXFileReference; explicitFileType = wrapper.application; path = Gravix.app; sourceTree = BUILT_PRODUCTS_DIR; };
-BCE16DD0260827ECF338C787 = { isa = PBXGroup; name = Sources; children = (C67383984FC50AF48F1305A3,F1E4804AE7ABD35EE97CAE81,77DD5E8231DC1BFDE4BD9816,A71A3BE0A5B643DE65A991A5,CB9622F81E93F887FBAE8CB4,6AD8989D19B5B954DAF67BD7,36119015A875F296C7D5BC4A,FB04C15F9EECD309DE0BD8F3); sourceTree = "<group>"; };
-0189424A5A60FED329FA868E = { isa = PBXGroup; name = Resources; children = (25AA0D5344965F9B6DD8561D,EC945C9824770D13C3B97FE2,F078B5564CBA5D0C8FED862B); sourceTree = "<group>"; };
+BCE16DD0260827ECF338C787 = { isa = PBXGroup; name = Sources; children = (62004728E8F953D908F401F9,C67383984FC50AF48F1305A3,F1E4804AE7ABD35EE97CAE81,77DD5E8231DC1BFDE4BD9816,A71A3BE0A5B643DE65A991A5,CB9622F81E93F887FBAE8CB4,6AD8989D19B5B954DAF67BD7,36119015A875F296C7D5BC4A,1205F009EE806377B90761BF,FB04C15F9EECD309DE0BD8F3); sourceTree = "<group>"; };
+0189424A5A60FED329FA868E = { isa = PBXGroup; name = Resources; children = (25AA0D5344965F9B6DD8561D,EC945C9824770D13C3B97FE2); sourceTree = "<group>"; };
 FBDC4F23F93125BBEEAE800C = { isa = PBXGroup; name = Products; children = (7D1043473D55BFA90E8530D3); sourceTree = "<group>"; };
 B28B7AF69320201D1CF206EB = { isa = PBXGroup; children = (BCE16DD0260827ECF338C787,0189424A5A60FED329FA868E,FBDC4F23F93125BBEEAE800C); sourceTree = "<group>"; };
-019DCF79831E783B1D7D6308 = { isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (684DCFE5529A8B51436A4802,F262CD6FD9BED242E5168273,27820C43E3D2D3806053C578,33C5C02F56940FB454CE9CD5,307F6C81BA6D66526D31D529,0FBB14CD51520F0CC9DFF637,F5982F9634454DAD27F927FF,CAED64C71748E58F3BCC9455); runOnlyForDeploymentPostprocessing = 0; };
-8265F0E5A96A840158B6B41F = { isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (F686A6D7936CDAE052F2081E,17E473A7DE5701C4C5DD087A,32DA775FE71C1280CCD450D0); runOnlyForDeploymentPostprocessing = 0; };
+019DCF79831E783B1D7D6308 = { isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (430A8603D0BD78EF2F7A8763,684DCFE5529A8B51436A4802,F262CD6FD9BED242E5168273,27820C43E3D2D3806053C578,33C5C02F56940FB454CE9CD5,307F6C81BA6D66526D31D529,0FBB14CD51520F0CC9DFF637,F5982F9634454DAD27F927FF,3C7F88F344A95517BEBFCEA2,CAED64C71748E58F3BCC9455); runOnlyForDeploymentPostprocessing = 0; };
+8265F0E5A96A840158B6B41F = { isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (F686A6D7936CDAE052F2081E,17E473A7DE5701C4C5DD087A); runOnlyForDeploymentPostprocessing = 0; };
 40E35EA1706603A2872CA65B = { isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
 88D3A35C72D1937B7797D5A8 = { isa = PBXShellScriptBuildPhase; name = "Bundle RDP runtime"; buildActionMask = 2147483647; alwaysOutOfDate = 1; files = (); inputPaths = (); outputPaths = (); runOnlyForDeploymentPostprocessing = 0; shellPath = /bin/bash; shellScript = "/usr/bin/python3 \"$SRCROOT/Scripts/bundle-libraries.py\""; };
 BD604D99E75E45D38BC7AC8F = { isa = XCBuildConfiguration; name = Debug; buildSettings = {PRODUCT_NAME = "Gravix";PRODUCT_BUNDLE_IDENTIFIER = "com.gravix.desktop";INFOPLIST_FILE = "Resources/Info.plist";MACOSX_DEPLOYMENT_TARGET = "14.0";SWIFT_VERSION = "5.0";CLANG_CXX_LANGUAGE_STANDARD = "c++17";CLANG_ENABLE_OBJC_ARC = "YES";CLANG_ENABLE_MODULES = "YES";SWIFT_OBJC_BRIDGING_HEADER = "Sources/RDPBridge/GravixRDP.h";HEADER_SEARCH_PATHS = ("$(SRCROOT)/Vendor/include/freerdp3","$(SRCROOT)/Vendor/include/winpr3");LIBRARY_SEARCH_PATHS = ("$(SRCROOT)/Vendor/lib");OTHER_LDFLAGS = ("-lfreerdp-client3","-lfreerdp3","-lwinpr3","-lc++","-framework","QuartzCore","-framework","Security");LD_RUNPATH_SEARCH_PATHS = ("$(inherited)","@executable_path/../Frameworks");ENABLE_USER_SCRIPT_SANDBOXING = "NO";ENABLE_APP_SANDBOX = "NO";ENABLE_HARDENED_RUNTIME = "YES";CODE_SIGN_ENTITLEMENTS = "Resources/Gravix.entitlements";CODE_SIGN_IDENTITY = "-";CODE_SIGN_STYLE = "Manual";ARCHS = "arm64";ONLY_ACTIVE_ARCH = "YES";COMBINE_HIDPI_IMAGES = "YES";SWIFT_EMIT_LOC_STRINGS = "NO";GENERATE_INFOPLIST_FILE = "NO";SWIFT_OPTIMIZATION_LEVEL = "-Onone";GCC_OPTIMIZATION_LEVEL = "0";DEBUG_INFORMATION_FORMAT = "dwarf";}; };
